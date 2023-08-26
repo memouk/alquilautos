@@ -12,8 +12,8 @@ using alquilautos.Data;
 namespace alquilautos.Migrations
 {
     [DbContext(typeof(AlquilautosContext))]
-    [Migration("20230825010745_update")]
-    partial class update
+    [Migration("20230825023037_updateX")]
+    partial class updateX
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

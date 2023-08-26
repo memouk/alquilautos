@@ -17,5 +17,7 @@ namespace alquilautos.Data
         public DbSet<alquilautos.Models.Alquiler> Alquiler { get; set; } = default!;
 
         public DbSet<alquilautos.Models.Vehiculos> Vehiculos { get; set; } = default!;
+
+        public DbSet<alquilautos.Models.VehiculosDeportivos> VehiculosDeportivos { get; set; } = default!;
     }
 }
