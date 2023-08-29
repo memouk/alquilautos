@@ -1,0 +1,66 @@
+@model alquilautos.Models.Usuarios
+
+@{
+    ViewData["Title"] = "Create";
+}
+<h1>Create</h1>
+
+<h4>Usuarios</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="tipoDoc" class="control-label"></label>
+                <input asp-for="tipoDoc" class="form-control" />
+                <span asp-validation-for="tipoDoc" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.tipoDoc, "Tipo de Documento")
+                @Html.DropDownListFor(model => model.tipoDoc, new SelectList(ViewBag.TiposDoc, "Id", "tipo"), "Seleccione un Tipo de Documento", new { @class = "form-control" })
+            </div>
+            <div class="form-group">
+                <label asp-for="documento" class="control-label"></label>
+                <input asp-for="documento" class="form-control" />
+                <span asp-validation-for="documento" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="idNombres" class="control-label"></label>
+                <input asp-for="idNombres" class="form-control" />
+                <span asp-validation-for="idNombres" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="idTelefono" class="control-label"></label>
+                <input asp-for="idTelefono" class="form-control" />
+                <span asp-validation-for="idTelefono" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="idDireccion" class="control-label"></label>
+                <input asp-for="idDireccion" class="form-control" />
+                <span asp-validation-for="idDireccion" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="fechaNacimiento" class="control-label"></label>
+                <input asp-for="fechaNacimiento" class="form-control" />
+                <span asp-validation-for="fechaNacimiento" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="fechaCreacion" class="control-label"></label>
+                <input asp-for="fechaCreacion" class="form-control" />
+                <span asp-validation-for="fechaCreacion" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

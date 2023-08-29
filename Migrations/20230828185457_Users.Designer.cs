@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using alquilautos.Data;
 
@@ -11,9 +12,11 @@ using alquilautos.Data;
 namespace alquilautos.Migrations
 {
     [DbContext(typeof(AlquilautosContext))]
-    partial class AlquilautosContextModelSnapshot : ModelSnapshot
+    [Migration("20230828185457_Users")]
+    partial class Users
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -45,22 +48,6 @@ namespace alquilautos.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Alquiler");
-                });
-
-            modelBuilder.Entity("alquilautos.Models.TipoDoc", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("tipo")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("TipoDoc");
                 });
 
             modelBuilder.Entity("alquilautos.Models.Usuarios", b =>
