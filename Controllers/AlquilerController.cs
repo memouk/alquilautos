@@ -48,6 +48,8 @@ namespace alquilautos.Controllers
         // GET: Alquiler/Create
         public IActionResult Create()
         {
+            List<Vehiculos> vehiculos = _context.Vehiculos.ToList();
+            ViewBag.vehiculos = new SelectList(vehiculos, "Id", "Placa");
             return View();
         }
 

@@ -27,10 +27,21 @@
                 <input asp-for="FechaFin" class="form-control" />
                 <span asp-validation-for="FechaFin" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            @* <div class="form-group">
                 <label asp-for="Idvehiculo" class="control-label"></label>
                 <input asp-for="Idvehiculo" class="form-control" />
                 <span asp-validation-for="Idvehiculo" class="text-danger"></span>
+            </div> *@
+            <div class="form-group">
+                @if (ViewBag.vehiculos != null)
+                {
+                    @Html.LabelFor(model => model.Idvehiculo, "placa")
+                    @Html.DropDownListFor(model => model.Idvehiculo, ViewBag.vehiculos as SelectList, "Seleccione una placa", new { @class = "form-control" })
+                }
+                else
+                {
+                <p>No se encontraron datos para el dropdown.</p>
+                }
             </div>
             <div class="form-group">
                 <label asp-for="Valor" class="control-label"></label>
