@@ -10,87 +10,87 @@ using alquilautos.Models;
 
 namespace alquilautos.Controllers
 {
-    public class AlquilerController : Controller
+    public class NombresController : Controller
     {
         private readonly AlquilautosContext _context;
 
-        public AlquilerController(AlquilautosContext context)
+        public NombresController(AlquilautosContext context)
         {
             _context = context;
         }
 
-        // GET: Alquiler
+        // GET: Nombres
         public async Task<IActionResult> Index()
         {
-              return _context.Alquiler != null ? 
-                          View(await _context.Alquiler.ToListAsync()) :
-                          Problem("Entity set 'AlquilautosContext.Alquiler'  is null.");
+              return _context.Nombres != null ? 
+                          View(await _context.Nombres.ToListAsync()) :
+                          Problem("Entity set 'AlquilautosContext.Nombres'  is null.");
         }
 
-        // GET: Alquiler/Details/5
+        // GET: Nombres/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null || _context.Alquiler == null)
+            if (id == null || _context.Nombres == null)
             {
                 return NotFound();
             }
 
-            var alquiler = await _context.Alquiler
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (alquiler == null)
+            var nombres = await _context.Nombres
+                .FirstOrDefaultAsync(m => m.NombresId == id);
+            if (nombres == null)
             {
                 return NotFound();
             }
 
-            return View(alquiler);
+            return View(nombres);
         }
 
-        // GET: Alquiler/Create
+        // GET: Nombres/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Alquiler/Create
+        // POST: Nombres/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Descripcion,FechaInicio,FechaFin,Idvehiculo,Valor")] Alquiler alquiler)
+        public async Task<IActionResult> Create([Bind("NombresId,primerNombre,segundoNombre,primerApellido,segundoApellido")] Nombres nombres)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(alquiler);
+                _context.Add(nombres);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(alquiler);
+            return View(nombres);
         }
 
-        // GET: Alquiler/Edit/5
+        // GET: Nombres/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null || _context.Alquiler == null)
+            if (id == null || _context.Nombres == null)
             {
                 return NotFound();
             }
 
-            var alquiler = await _context.Alquiler.FindAsync(id);
-            if (alquiler == null)
+            var nombres = await _context.Nombres.FindAsync(id);
+            if (nombres == null)
             {
                 return NotFound();
             }
-            return View(alquiler);
+            return View(nombres);
         }
 
-        // POST: Alquiler/Edit/5
+        // POST: Nombres/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Descripcion,FechaInicio,FechaFin,Idvehiculo,Valor")] Alquiler alquiler)
+        public async Task<IActionResult> Edit(int id, [Bind("NombresId,primerNombre,segundoNombre,primerApellido,segundoApellido")] Nombres nombres)
         {
-            if (id != alquiler.Id)
+            if (id != nombres.NombresId)
             {
                 return NotFound();
             }
@@ -99,12 +99,12 @@ namespace alquilautos.Controllers
             {
                 try
                 {
-                    _context.Update(alquiler);
+                    _context.Update(nombres);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!AlquilerExists(alquiler.Id))
+                    if (!NombresExists(nombres.NombresId))
                     {
                         return NotFound();
                     }
@@ -115,49 +115,49 @@ namespace alquilautos.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(alquiler);
+            return View(nombres);
         }
 
-        // GET: Alquiler/Delete/5
+        // GET: Nombres/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null || _context.Alquiler == null)
+            if (id == null || _context.Nombres == null)
             {
                 return NotFound();
             }
 
-            var alquiler = await _context.Alquiler
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (alquiler == null)
+            var nombres = await _context.Nombres
+                .FirstOrDefaultAsync(m => m.NombresId == id);
+            if (nombres == null)
             {
                 return NotFound();
             }
 
-            return View(alquiler);
+            return View(nombres);
         }
 
-        // POST: Alquiler/Delete/5
+        // POST: Nombres/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            if (_context.Alquiler == null)
+            if (_context.Nombres == null)
             {
-                return Problem("Entity set 'AlquilautosContext.Alquiler'  is null.");
+                return Problem("Entity set 'AlquilautosContext.Nombres'  is null.");
             }
-            var alquiler = await _context.Alquiler.FindAsync(id);
-            if (alquiler != null)
+            var nombres = await _context.Nombres.FindAsync(id);
+            if (nombres != null)
             {
-                _context.Alquiler.Remove(alquiler);
+                _context.Nombres.Remove(nombres);
             }
             
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool AlquilerExists(int id)
+        private bool NombresExists(int id)
         {
-          return (_context.Alquiler?.Any(e => e.Id == id)).GetValueOrDefault();
+          return (_context.Nombres?.Any(e => e.NombresId == id)).GetValueOrDefault();
         }
     }
 }

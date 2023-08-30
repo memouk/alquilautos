@@ -14,7 +14,7 @@ namespace alquilautos.Data
         {
         }
 
-        public DbSet<alquilautos.Models.Alquiler> Alquiler { get; set; } = default!;
+        
 
         public DbSet<alquilautos.Models.Vehiculos> Vehiculos { get; set; } = default!;
 
@@ -23,5 +23,11 @@ namespace alquilautos.Data
         public DbSet<alquilautos.Models.Usuarios> Usuarios { get; set; } = default!;
 
         public DbSet<alquilautos.Models.TipoDoc> TipoDoc { get; set; } = default!;
+
+        public DbSet<alquilautos.Models.Nombres> Nombres { get; set; } = default!;
+
+        public DbSet<alquilautos.Models.Alquiler> Alquiler { get; set; } = default!;
+
+        public DbSet<alquilautos.Models.Marcas> Marcas { get; set; } = default!;
     }
 }

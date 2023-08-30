@@ -12,8 +12,8 @@ using alquilautos.Data;
 namespace alquilautos.Migrations
 {
     [DbContext(typeof(AlquilautosContext))]
-    [Migration("20230828185457_Users")]
-    partial class Users
+    [Migration("20230830064053_Marcas")]
+    partial class Marcas
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -33,21 +33,85 @@ namespace alquilautos.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("Genre")
+                    b.Property<string>("Descripcion")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("Price")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("ReleaseDate")
+                    b.Property<DateTime>("FechaFin")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("Title")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<DateTime>("FechaInicio")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("Idvehiculo")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Valor")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
                     b.ToTable("Alquiler");
+                });
+
+            modelBuilder.Entity("alquilautos.Models.Marcas", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Descripcion")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Marcas");
+                });
+
+            modelBuilder.Entity("alquilautos.Models.Nombres", b =>
+                {
+                    b.Property<int>("NombresId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("NombresId"));
+
+                    b.Property<string>("primerApellido")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("primerNombre")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("segundoApellido")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("segundoNombre")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("NombresId");
+
+                    b.ToTable("Nombres");
+                });
+
+            modelBuilder.Entity("alquilautos.Models.TipoDoc", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("tipo")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("TipoDoc");
                 });
 
             modelBuilder.Entity("alquilautos.Models.Usuarios", b =>
@@ -57,6 +121,9 @@ namespace alquilautos.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("NombresId")
+                        .HasColumnType("int");
 
                     b.Property<int>("documento")
                         .HasColumnType("int");
@@ -80,6 +147,8 @@ namespace alquilautos.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("NombresId");
 
                     b.ToTable("Usuarios");
                 });
@@ -142,6 +211,17 @@ namespace alquilautos.Migrations
                         .HasColumnType("int");
 
                     b.HasDiscriminator().HasValue("VehiculosDeportivos");
+                });
+
+            modelBuilder.Entity("alquilautos.Models.Usuarios", b =>
+                {
+                    b.HasOne("alquilautos.Models.Nombres", "Nombres")
+                        .WithMany()
+                        .HasForeignKey("NombresId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Nombres");
                 });
 #pragma warning restore 612, 618
         }

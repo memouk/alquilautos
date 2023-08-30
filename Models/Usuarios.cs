@@ -6,7 +6,11 @@ public class Usuarios
     public int tipoDoc { get; set; }
 
     public int documento { get; set; }
+
     public int idNombres  { get; set; }
+    public int NombresId { get; set; }
+    public Nombres Nombres { get; set; }
+    
     public int idTelefono { get; set; }
     public int idDireccion { get; set; }
     public DateTime fechaNacimiento { get; set; }

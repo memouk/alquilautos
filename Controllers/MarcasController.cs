@@ -10,87 +10,87 @@ using alquilautos.Models;
 
 namespace alquilautos.Controllers
 {
-    public class AlquilerController : Controller
+    public class MarcasController : Controller
     {
         private readonly AlquilautosContext _context;
 
-        public AlquilerController(AlquilautosContext context)
+        public MarcasController(AlquilautosContext context)
         {
             _context = context;
         }
 
-        // GET: Alquiler
+        // GET: Marcas
         public async Task<IActionResult> Index()
         {
-              return _context.Alquiler != null ? 
-                          View(await _context.Alquiler.ToListAsync()) :
-                          Problem("Entity set 'AlquilautosContext.Alquiler'  is null.");
+              return _context.Marcas != null ? 
+                          View(await _context.Marcas.ToListAsync()) :
+                          Problem("Entity set 'AlquilautosContext.Marcas'  is null.");
         }
 
-        // GET: Alquiler/Details/5
+        // GET: Marcas/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null || _context.Alquiler == null)
+            if (id == null || _context.Marcas == null)
             {
                 return NotFound();
             }
 
-            var alquiler = await _context.Alquiler
+            var marcas = await _context.Marcas
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (alquiler == null)
+            if (marcas == null)
             {
                 return NotFound();
             }
 
-            return View(alquiler);
+            return View(marcas);
         }
 
-        // GET: Alquiler/Create
+        // GET: Marcas/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Alquiler/Create
+        // POST: Marcas/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Descripcion,FechaInicio,FechaFin,Idvehiculo,Valor")] Alquiler alquiler)
+        public async Task<IActionResult> Create([Bind("Id,Descripcion")] Marcas marcas)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(alquiler);
+                _context.Add(marcas);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(alquiler);
+            return View(marcas);
         }
 
-        // GET: Alquiler/Edit/5
+        // GET: Marcas/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null || _context.Alquiler == null)
+            if (id == null || _context.Marcas == null)
             {
                 return NotFound();
             }
 
-            var alquiler = await _context.Alquiler.FindAsync(id);
-            if (alquiler == null)
+            var marcas = await _context.Marcas.FindAsync(id);
+            if (marcas == null)
             {
                 return NotFound();
             }
-            return View(alquiler);
+            return View(marcas);
         }
 
-        // POST: Alquiler/Edit/5
+        // POST: Marcas/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Descripcion,FechaInicio,FechaFin,Idvehiculo,Valor")] Alquiler alquiler)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Descripcion")] Marcas marcas)
         {
-            if (id != alquiler.Id)
+            if (id != marcas.Id)
             {
                 return NotFound();
             }
@@ -99,12 +99,12 @@ namespace alquilautos.Controllers
             {
                 try
                 {
-                    _context.Update(alquiler);
+                    _context.Update(marcas);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!AlquilerExists(alquiler.Id))
+                    if (!MarcasExists(marcas.Id))
                     {
                         return NotFound();
                     }
@@ -115,49 +115,49 @@ namespace alquilautos.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(alquiler);
+            return View(marcas);
         }
 
-        // GET: Alquiler/Delete/5
+        // GET: Marcas/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null || _context.Alquiler == null)
+            if (id == null || _context.Marcas == null)
             {
                 return NotFound();
             }
 
-            var alquiler = await _context.Alquiler
+            var marcas = await _context.Marcas
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (alquiler == null)
+            if (marcas == null)
             {
                 return NotFound();
             }
 
-            return View(alquiler);
+            return View(marcas);
         }
 
-        // POST: Alquiler/Delete/5
+        // POST: Marcas/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            if (_context.Alquiler == null)
+            if (_context.Marcas == null)
             {
-                return Problem("Entity set 'AlquilautosContext.Alquiler'  is null.");
+                return Problem("Entity set 'AlquilautosContext.Marcas'  is null.");
             }
-            var alquiler = await _context.Alquiler.FindAsync(id);
-            if (alquiler != null)
+            var marcas = await _context.Marcas.FindAsync(id);
+            if (marcas != null)
             {
-                _context.Alquiler.Remove(alquiler);
+                _context.Marcas.Remove(marcas);
             }
             
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool AlquilerExists(int id)
+        private bool MarcasExists(int id)
         {
-          return (_context.Alquiler?.Any(e => e.Id == id)).GetValueOrDefault();
+          return (_context.Marcas?.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }
 }

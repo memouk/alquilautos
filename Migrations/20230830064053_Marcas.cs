@@ -5,22 +5,22 @@
 namespace alquilautos.Migrations
 {
     /// <inheritdoc />
-    public partial class tipos : Migration
+    public partial class Marcas : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "TipoDoc",
+                name: "Marcas",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    tipo = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    Descripcion = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_TipoDoc", x => x.Id);
+                    table.PrimaryKey("PK_Marcas", x => x.Id);
                 });
         }
 
@@ -28,7 +28,7 @@ namespace alquilautos.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "TipoDoc");
+                name: "Marcas");
         }
     }
 }

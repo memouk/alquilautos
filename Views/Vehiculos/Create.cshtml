@@ -23,9 +23,15 @@
                 <span asp-validation-for="creacion" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="idMarca" class="control-label"></label>
-                <input asp-for="idMarca" class="form-control" />
-                <span asp-validation-for="idMarca" class="text-danger"></span>
+                @if (ViewBag.marcas != null)
+                {
+                    @Html.LabelFor(model => model.idMarca, "marcas")
+                    @Html.DropDownListFor(model => model.idMarca, ViewBag.marcas as SelectList, "Seleccione una marca", new { @class = "form-control" })
+                }
+                else
+                {
+                <p>No se encontraron datos para el dropdown.</p>
+                }
             </div>
             <div class="form-group">
                 <label asp-for="idConductor" class="control-label"></label>

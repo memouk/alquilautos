@@ -22,9 +22,8 @@ namespace alquilautos.Controllers
         // GET: Usuarios
         public async Task<IActionResult> Index()
         {
-              return _context.Usuarios != null ? 
-                          View(await _context.Usuarios.ToListAsync()) :
-                          Problem("Entity set 'AlquilautosContext.Usuarios'  is null.");
+            var alquilautosContext = _context.Usuarios.Include(u => u.Nombres);
+            return View(await alquilautosContext.ToListAsync());
         }
 
         // GET: Usuarios/Details/5
@@ -36,6 +35,7 @@ namespace alquilautos.Controllers
             }
 
             var usuarios = await _context.Usuarios
+                .Include(u => u.Nombres)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (usuarios == null)
             {
@@ -47,31 +47,17 @@ namespace alquilautos.Controllers
 
         // GET: Usuarios/Create
         public IActionResult Create()
-        {   
-            List<TipoDoc> tiposDoc = _context.TipoDoc.ToList();
-
-    // Crear una SelectList para usar en el dropdown
-            ViewBag.TiposDoc = new SelectList(tiposDoc, "Id", "tipo");
+        {
+            ViewData["NombresId"] = new SelectList(_context.Nombres, "NombresId", "NombresId");
             return View();
         }
-      // public string MostrarTipos(){
-        //return "si llama metodo";
-       //}
-      public ActionResult<List<TipoDoc>> TipoDoc()
-    {
-        // Utiliza el DbContext para obtener todos los TipoDoc
-        List<TipoDoc> tipoDocList = _context.TipoDoc.ToList();
 
-        return tipoDocList;
-    }
-
-      
         // POST: Usuarios/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,tipoDoc,documento,idNombres,idTelefono,idDireccion,fechaNacimiento,fechaCreacion")] Usuarios usuarios)
+        public async Task<IActionResult> Create([Bind("Id,tipoDoc,documento,idNombres,NombresId,idTelefono,idDireccion,fechaNacimiento,fechaCreacion")] Usuarios usuarios)
         {
             if (ModelState.IsValid)
             {
@@ -79,6 +65,7 @@ namespace alquilautos.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["NombresId"] = new SelectList(_context.Nombres, "NombresId", "NombresId", usuarios.NombresId);
             return View(usuarios);
         }
 
@@ -95,6 +82,7 @@ namespace alquilautos.Controllers
             {
                 return NotFound();
             }
+            ViewData["NombresId"] = new SelectList(_context.Nombres, "NombresId", "NombresId", usuarios.NombresId);
             return View(usuarios);
         }
 
@@ -103,7 +91,7 @@ namespace alquilautos.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,tipoDoc,documento,idNombres,idTelefono,idDireccion,fechaNacimiento,fechaCreacion")] Usuarios usuarios)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,tipoDoc,documento,idNombres,NombresId,idTelefono,idDireccion,fechaNacimiento,fechaCreacion")] Usuarios usuarios)
         {
             if (id != usuarios.Id)
             {
@@ -130,6 +118,7 @@ namespace alquilautos.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["NombresId"] = new SelectList(_context.Nombres, "NombresId", "NombresId", usuarios.NombresId);
             return View(usuarios);
         }
 
@@ -142,6 +131,7 @@ namespace alquilautos.Controllers
             }
 
             var usuarios = await _context.Usuarios
+                .Include(u => u.Nombres)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (usuarios == null)
             {

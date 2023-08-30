@@ -5,9 +5,12 @@ namespace alquilautos.Models;
 public class Alquiler
 {
     public int Id { get; set; }
-    public string? Title { get; set; }
+    public string? Descripcion { get; set; }
     [DataType(DataType.Date)]
-    public DateTime ReleaseDate { get; set; }
-    public string? Genre { get; set; }
-    public int Price { get; set; }
+    public DateTime FechaInicio { get; set; }
+
+    [DataType(DataType.Date)]
+    public DateTime FechaFin { get; set; }
+    public int Idvehiculo { get; set; }
+    public int Valor { get; set; }
 }

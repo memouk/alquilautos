@@ -47,7 +47,9 @@ namespace alquilautos.Controllers
 
         // GET: Vehiculos/Create
         public IActionResult Create()
-        {
+        {   
+            List<Marcas> marcas = _context.Marcas.ToList();
+            ViewBag.marcas = new SelectList(marcas, "Id", "Descripcion");
             return View();
         }
 
