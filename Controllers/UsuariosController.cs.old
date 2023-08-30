@@ -1,0 +1,221 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
+using alquilautos.Data;
+using alquilautos.Models;
+
+namespace alquilautos.Controllers
+{
+    public class UsuariosController : Controller
+    {
+        private readonly AlquilautosContext _context;
+
+        public UsuariosController(AlquilautosContext context)
+        {
+            _context = context;
+        }
+
+        // GET: Usuarios
+        public async Task<IActionResult> Index()
+        {
+              return _context.Usuarios != null ? 
+                          View(await _context.Usuarios.ToListAsync()) :
+                          Problem("Entity set 'AlquilautosContext.Usuarios'  is null.");
+        }
+
+        // GET: Usuarios/Details/5
+        public async Task<IActionResult> Details(int? id)
+        {
+            if (id == null || _context.Usuarios == null)
+            {
+                return NotFound();
+            }
+
+            var usuarios = await _context.Usuarios
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (usuarios == null)
+            {
+                return NotFound();
+            }
+
+            return View(usuarios);
+        }
+
+        // GET: Usuarios/Create
+        public IActionResult Create()
+        {   
+            List<TipoDoc> tiposDoc = _context.TipoDoc.ToList();
+            ViewBag.TiposDoc = new SelectList(tiposDoc, "Id", "tipo");
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+public ActionResult Create(Usuarios usuario,string primerNombre, string segundoNombre, string primerApellido, string segundoApellido)
+{
+    if (ModelState.IsValid)
+    {
+        
+        // Crear un nuevo objeto Nombres con los nombres y apellidos ingresados
+        
+        var nuevoNombre = new Nombres
+        {
+            primerNombre = primerNombre,
+            segundoNombre = segundoNombre,
+            primerApellido = primerApellido,
+            segundoApellido = segundoApellido
+        };
+
+        // Agregar el nuevo nombre al contexto
+        _context.Nombres.Add(nuevoNombre);
+
+        // Crear un nuevo objeto Usuarios
+        var nuevoUsuario = new Usuarios
+        {
+            // Asignar el ID del nuevo nombre al campo idNombre del usuario
+            idNombres = nuevoNombre.NombresId,
+
+            // Puedes asignar otros valores aquí si es necesario
+        };
+
+        // Agregar el nuevo usuario al contexto
+        _context.Usuarios.Add(nuevoUsuario);
+
+        // Guardar los cambios en la base de datos
+        _context.SaveChanges();
+
+        return RedirectToAction("Index");
+    }
+
+    return View();
+}
+
+
+
+
+      // public string MostrarTipos(){
+        //return "si llama metodo";
+       //}
+      public ActionResult<List<TipoDoc>> TipoDoc()
+    {
+        // Utiliza el DbContext para obtener todos los TipoDoc
+        List<TipoDoc> tipoDocList = _context.TipoDoc.ToList();
+
+        return tipoDocList;
+    }
+
+      
+        // POST: Usuarios/Create
+        // To protect from overposting attacks, enable the specific properties you want to bind to.
+        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create([Bind("Id,tipoDoc,documento,idNombres,idTelefono,idDireccion,fechaNacimiento,fechaCreacion")] Usuarios usuarios)
+        {
+            if (ModelState.IsValid)
+            {
+                _context.Add(usuarios);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+            return View(usuarios);
+        }
+
+        // GET: Usuarios/Edit/5
+        public async Task<IActionResult> Edit(int? id)
+        {
+            if (id == null || _context.Usuarios == null)
+            {
+                return NotFound();
+            }
+
+            var usuarios = await _context.Usuarios.FindAsync(id);
+            if (usuarios == null)
+            {
+                return NotFound();
+            }
+            return View(usuarios);
+        }
+
+        // POST: Usuarios/Edit/5
+        // To protect from overposting attacks, enable the specific properties you want to bind to.
+        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(int id, [Bind("Id,tipoDoc,documento,idNombres,idTelefono,idDireccion,fechaNacimiento,fechaCreacion")] Usuarios usuarios)
+        {
+            if (id != usuarios.Id)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    _context.Update(usuarios);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!UsuariosExists(usuarios.Id))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction(nameof(Index));
+            }
+            return View(usuarios);
+        }
+
+        // GET: Usuarios/Delete/5
+        public async Task<IActionResult> Delete(int? id)
+        {
+            if (id == null || _context.Usuarios == null)
+            {
+                return NotFound();
+            }
+
+            var usuarios = await _context.Usuarios
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (usuarios == null)
+            {
+                return NotFound();
+            }
+
+            return View(usuarios);
+        }
+
+        // POST: Usuarios/Delete/5
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            if (_context.Usuarios == null)
+            {
+                return Problem("Entity set 'AlquilautosContext.Usuarios'  is null.");
+            }
+            var usuarios = await _context.Usuarios.FindAsync(id);
+            if (usuarios != null)
+            {
+                _context.Usuarios.Remove(usuarios);
+            }
+            
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+        }
+
+        private bool UsuariosExists(int id)
+        {
+          return (_context.Usuarios?.Any(e => e.Id == id)).GetValueOrDefault();
+        }
+    }
+}
